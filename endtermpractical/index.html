@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prime Checker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Prime Number Checker</h1>
+    
+    <div class="card">
+      <input 
+        type="number" 
+        id="primeInput" 
+        value="29"
+        placeholder="Enter a number"
+      >
+      <button onclick="checkPrime()">Check</button>
+    </div>
+
+    <div id="resultBox" class="result" style="display:none;">
+      <p id="statusText"></p>
+      <p id="detailsText"></p>
+    </div>
+  </div>
+
+  <script>
+    function checkPrime() {
+      const num = parseInt(document.getElementById("primeInput").value);
+      const resultBox = document.getElementById("resultBox");
+      const statusText = document.getElementById("statusText");
+      const detailsText = document.getElementById("detailsText");
+      
+      if (isNaN(num)) {
+        statusText.innerText = "Invalid input";
+        detailsText.innerText = "";
+        resultBox.style.display = "block";
+        resultBox.className = "result error";
+        return;
+      }
+
+      let isPrime = true;
+  
+      if (num <= 1) {
+        isPrime = false;
+        detailsText.innerText = "Numbers must be > 1";
+      } else if (num === 2) {
+        isPrime = true;
+        detailsText.innerText = "2 is the only even prime";
+      } else if (num % 2 === 0) {
+        isPrime = false;
+        detailsText.innerText = "Divisible by 2";
+      } else {
+        for (let i = 3; i <= Math.sqrt(num); i += 2) {
+          if (num % i === 0) {
+            isPrime = false;
+            detailsText.innerText = `Divisible by ${i}`;
+            break;
+          }
+        }
+        if (isPrime) {
+          detailsText.innerText = "No divisors found";
+        }
+      }
+
+      statusText.innerText = num + (isPrime ? " ✓ IS PRIME" : " ✗ NOT PRIME");
+      resultBox.className = isPrime ? "result success" : "result error";
+      resultBox.style.display = "block";
+    }
+
+    checkPrime();
+  </script>
+</body>
+</html>
